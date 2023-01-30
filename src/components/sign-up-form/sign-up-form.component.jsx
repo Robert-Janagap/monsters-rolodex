@@ -56,28 +56,34 @@ const SignUpForm = () => {
           label='Display Name'
         />
         <FormInput
-          type='email'
+          inputOptions={{
+            type: 'email',
+            required: true,
+            onChange: handleChange,
+            name: 'email',
+            value: email
+          }}
           label='Email'
-          required
-          onChange={handleChange}
-          name='email'
-          value={email}
         />
         <FormInput
-          type='password'
+          inputOptions={{
+            type: 'password',
+            required: true,
+            onChange: handleChange,
+            name: 'password',
+            value: password
+          }}
           label='Password'
-          required
-          onChange={handleChange}
-          name='password'
-          value={password}
         />
         <FormInput
-          type='password'
           label='Confirm Password'
-          required
-          onChange={handleChange}
-          name='confirmPassword'
-          value={confirmPassword}
+          inputOptions={{
+            type: 'password',
+            required: true,
+            onChange: handleChange,
+            name: 'confirmPassword',
+            value: confirmPassword
+          }}
         />
         <button type='submit'>Sign Up</button>
       </form>
