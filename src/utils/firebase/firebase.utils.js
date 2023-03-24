@@ -7,10 +7,17 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
 } from 'firebase/auth'
 
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  writeBatch,
+} from 'firebase/firestore'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -19,16 +26,29 @@ const firebaseConfig = {
   projectId: 'crwn-clothing-db-6fb5d',
   storageBucket: 'crwn-clothing-db-6fb5d.appspot.com',
   messagingSenderId: '369295982898',
-  appId: '1:369295982898:web:3ec012bf542c67facb972b'
+  appId: '1:369295982898:web:3ec012bf542c67facb972b',
 }
 
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig)
 
+// adding collection
+export const addCollectionAndDocument = async (collectionKey, objectsToAdd) => {
+  const collectionRef = collection(db, collectionKey)
+  const batch = writeBatch(db)
+  objectsToAdd.forEach((object) => {
+    const docRef = doc(collectionRef, object.title.toLowerCase())
+    batch.set(docRef, object)
+  })
+
+  await batch.commit()
+  console.log('done')
+}
+
 const googleProvider = new GoogleAuthProvider()
 
 googleProvider.setCustomParameters({
-  prompt: 'select_account'
+  prompt: 'select_account',
 })
 
 export const auth = getAuth()
@@ -58,7 +78,7 @@ export const createUserDocumentFromAuth = async (
         displayName,
         email,
         createdAt,
-        ...additionalInformation
+        ...additionalInformation,
       })
     } catch (error) {
       console.log('error creating the user', error.message)
