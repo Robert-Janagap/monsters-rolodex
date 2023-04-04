@@ -108,8 +108,8 @@ export const onAuthStateChangeListener = (callback) =>
   onAuthStateChanged(auth, callback)
 
 // get docs categories
-export const getCategoriesAndDocuments = async () => {
-  const collectionRef = collection(db, 'categories')
+export const getCategoriesAndDocuments = async (name) => {
+  const collectionRef = collection(db, name)
   const q = query(collectionRef)
 
   const querySnapshot = await getDocs(q)
