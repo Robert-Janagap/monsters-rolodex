@@ -1,21 +1,24 @@
 import { useState } from 'react'
 import {
   createAuthUserWithEmailAndPassword,
-  createUserDocumentFromAuth
+  createUserDocumentFromAuth,
 } from '../../utils/firebase/firebase.utils'
 import FormInput from '../form-input/form-input.component'
 import './sign-up-form.styles.scss'
 import Button from '../button/button.component'
+import { useDispatch } from 'react-redux'
+import { signUpStart } from '../../store/user/user.action'
 const defaultFormFields = {
   displayName: '',
   email: '',
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
 }
 
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields)
   const { displayName, email, password, confirmPassword } = formFields
+  const dispatch = useDispatch()
 
   const resetFormField = () => {
     setFormFields(defaultFormFields)
@@ -28,8 +31,7 @@ const SignUpForm = () => {
       return
     }
     try {
-      const { user } = await createAuthUserWithEmailAndPassword(email, password)
-      await createUserDocumentFromAuth(user, { displayName })
+      dispatch(signUpStart(email, password, displayName))
       resetFormField()
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
@@ -53,7 +55,7 @@ const SignUpForm = () => {
             required: true,
             onChange: handleChange,
             name: 'displayName',
-            value: displayName
+            value: displayName,
           }}
           label='Display Name'
         />
@@ -63,7 +65,7 @@ const SignUpForm = () => {
             required: true,
             onChange: handleChange,
             name: 'email',
-            value: email
+            value: email,
           }}
           label='Email'
         />
@@ -73,7 +75,7 @@ const SignUpForm = () => {
             required: true,
             onChange: handleChange,
             name: 'password',
-            value: password
+            value: password,
           }}
           label='Password'
         />
@@ -84,7 +86,7 @@ const SignUpForm = () => {
             required: true,
             onChange: handleChange,
             name: 'confirmPassword',
-            value: confirmPassword
+            value: confirmPassword,
           }}
         />
         <Button buttonType='inverted' type='submit'>
