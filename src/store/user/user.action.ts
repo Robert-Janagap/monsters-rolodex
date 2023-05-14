@@ -9,6 +9,7 @@ import {
   UserData,
   AdditionalInformation
 } from '../../utils/firebase/firebase.utils'
+import { User } from '@firebase/auth'
 
 export type CheckUserSession = Action<USER_ACTION_TYPE.CHECK_USER_SESSION>
 
@@ -51,7 +52,7 @@ export type SignOutFailed = ActionWithPayload<
 
 export type SignUpSuccess = ActionWithPayload<
   USER_ACTION_TYPE.SIGN_UP_SUCCESS,
-  { user: UserData; additionalDetails: AdditionalInformation }
+  { user: User; additionalDetails: AdditionalInformation }
 >
 
 export type SignOutStart = Action<USER_ACTION_TYPE.SIGN_OUT_START>
@@ -76,7 +77,7 @@ export const emailSignInStart = withMatcher(
 )
 
 export const signInSuccess = withMatcher(
-  (user: UserData): SignInSuccess =>
+  (user: UserData & { id: string }): SignInSuccess =>
     createAction(USER_ACTION_TYPE.SIGN_IN_SUCCESS, user)
 )
 
@@ -95,7 +96,7 @@ export const signUpStart = withMatcher(
 )
 
 export const signUpSuccess = withMatcher(
-  (user: UserData, additionalDetails: AdditionalInformation): SignUpSuccess =>
+  (user: User, additionalDetails: AdditionalInformation): SignUpSuccess =>
     createAction(USER_ACTION_TYPE.SIGN_UP_SUCCESS, { user, additionalDetails })
 )
 
