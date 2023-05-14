@@ -54,6 +54,9 @@ export type SignUpSuccess = ActionWithPayload<
   { user: UserData; additionalDetails: AdditionalInformation }
 >
 
+export type SignOutStart = Action<USER_ACTION_TYPE.SIGN_OUT_START>
+export type SignOutSuccess = Action<USER_ACTION_TYPE.SIGN_OUT_SUCCESS>
+
 export const setCurrentUser = withMatcher(
   (user: UserData): SetCurrentUser =>
     createAction(USER_ACTION_TYPE.SET_CURRENT_USER, user)
@@ -101,10 +104,13 @@ export const signUpFailed = withMatcher(
     createAction(USER_ACTION_TYPE.SIGN_UP_FAILED, error)
 )
 
-export const signOutStart = () => createAction(USER_ACTION_TYPE.SIGN_OUT_START)
+export const signOutStart = withMatcher(
+  (): SignOutStart => createAction(USER_ACTION_TYPE.SIGN_OUT_START)
+)
 
-export const signOutSuccess = () =>
-  createAction(USER_ACTION_TYPE.SIGN_OUT_SUCCESS)
+export const signOutSuccess = withMatcher(
+  (): SignOutSuccess => createAction(USER_ACTION_TYPE.SIGN_OUT_SUCCESS)
+)
 
 export const signOutFailed = withMatcher(
   (error: Error): SignOutFailed =>
