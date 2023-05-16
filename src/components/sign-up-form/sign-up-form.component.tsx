@@ -39,6 +39,7 @@ const SignUpForm = () => {
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
+    console.log(name);
     setFormFields({ ...formFields, [name]: value })
   }
   return (
@@ -51,24 +52,24 @@ const SignUpForm = () => {
             required
             onChange= {handleChange}
             name= 'displayName'
-            value= 'displayName'
-          label=  'Display Name'
+            value= {displayName}
+            label=  'Display Name'
         />
         <FormInput
             type= 'email'
             required
             onChange= {handleChange}
             name= 'email'
-            value= 'email'
-          label='Email'
+            value= {email}
+            label='Email'
         />
         <FormInput
             type= 'password'
             required
             onChange= {handleChange}
             name= 'password'
-            value= 'password'
-          label='Password'
+            value= {password}
+            label='Password'
         />
         <FormInput
           label='Confirm Password'
@@ -76,7 +77,7 @@ const SignUpForm = () => {
             required
             onChange= {handleChange}
             name= 'confirmPassword'
-            value= 'confirmPassword'
+            value= {confirmPassword}
         />
         <Button buttonType={BUTTON_TYPE_CLASSES.inverted} type='submit'>
           Sign Up
